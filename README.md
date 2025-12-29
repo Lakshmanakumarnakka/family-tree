@@ -1,59 +1,151 @@
-# FamilyTree
+# Family Tree Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+A comprehensive Angular 19 application for visualizing and managing family relationships with an interactive tree structure.
 
-## Development server
+## Features
 
-To start a local development server, run:
+### 🌳 Interactive Family Tree Visualization
+- **Hierarchical Display**: Shows family members in a tree structure with clear generational levels
+- **Visual Relationships**: Displays parent-child relationships with connecting lines
+- **Spouse Connections**: Shows married couples with visual indicators
+- **Responsive Design**: Adapts to different screen sizes and devices
 
-```bash
-ng serve
+### 👥 Family Member Information
+Each family member displays:
+- **Name**: Full name of the family member
+- **Age**: Current age
+- **Designation**: Job title or occupation
+- **Relation**: Relationship to other family members (e.g., Son, Daughter, Grandfather)
+- **Gender**: Male or female with color-coded avatars
+- **Avatar**: Initial-based circular avatar with gender-specific colors
+
+### 🎯 Interactive Features
+- **Click to Select**: Click on any family member to view detailed information
+- **Details Panel**: Side panel showing comprehensive member information
+- **Add New Members**: Form to add new family members with validation
+- **Relationship Mapping**: Automatic parent-child relationship establishment
+
+### 📱 User Interface
+- **Modern Design**: Clean, professional interface with gradient backgrounds
+- **Color Coding**: Different colors for different generations and relationships
+- **Hover Effects**: Interactive hover states for better user experience
+- **Mobile Responsive**: Optimized for mobile and tablet devices
+
+## Technical Implementation
+
+### Architecture
+- **Angular 19**: Latest Angular framework with standalone components
+- **TypeScript**: Strongly typed development
+- **SCSS**: Advanced styling with variables and mixins
+- **Reactive Forms**: Form validation and data binding
+
+### Components Structure
+```
+src/app/
+├── components/
+│   ├── family-tree/              # Main tree visualization
+│   └── family-member-form/       # Add member form
+├── models/
+│   └── family-member.model.ts    # Data models
+├── services/
+│   └── family-tree.service.ts    # Business logic
+└── pages/
+    └── dashboard/                # Main dashboard page
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+### Data Model
+```typescript
+interface FamilyMember {
+  id: string;
+  name: string;
+  age: number;
+  designation: string;
+  relation: string;
+  parentId?: string;
+  children?: FamilyMember[];
+  spouse?: FamilyMember;
+  gender: 'male' | 'female';
+}
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Sample Family Data
 
+The application comes with pre-populated sample data including:
+- **Grandparents**: John & Mary Smith (Patriarch & Matriarch)
+- **Parents**: Robert & Lisa Smith, Sarah & Mike Johnson
+- **Children**: Emma, James, Sophie, Alex (various ages and occupations)
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher)
+- Angular CLI (v19 or higher)
+
+### Installation
 ```bash
-ng generate --help
+npm install
 ```
 
-## Building
-
-To build the project run:
-
+### Development Server
 ```bash
-ng build
+npm start
+```
+Navigate to `http://localhost:4200/`
+
+### Build
+```bash
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Usage
 
-## Running unit tests
+1. **View Family Tree**: The main dashboard displays the complete family tree
+2. **Select Members**: Click on any family member to see detailed information
+3. **Add New Members**: Click the "Add Family Member" button to add new members
+4. **Form Validation**: Fill in required fields (name, age, designation, relation)
+5. **Relationship Setup**: Optionally specify parent ID to establish relationships
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Customization
 
-```bash
-ng test
+### Adding New Relations
+Edit the `relations` array in `family-member-form.component.ts`:
+```typescript
+relations = [
+  'Son', 'Daughter', 'Father', 'Mother',
+  // Add custom relations here
+];
 ```
 
-## Running end-to-end tests
+### Styling Customization
+Modify SCSS variables in component stylesheets:
+- Colors for different generations
+- Avatar sizes and styles
+- Layout spacing and dimensions
 
-For end-to-end (e2e) testing, run:
+## Future Enhancements
 
-```bash
-ng e2e
-```
+- **Photo Upload**: Add profile photos for family members
+- **Family Statistics**: Age distribution, generation counts
+- **Export Features**: PDF export of family tree
+- **Search Functionality**: Find family members by name or relation
+- **Family Events**: Add birthdays, anniversaries, and important dates
+- **Multiple Family Trees**: Support for different family branches
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Browser Support
 
-## Additional Resources
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.

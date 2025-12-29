@@ -1,0 +1,79 @@
+<header class="family-header" (click)="showUserDropdown && (showUserDropdown = false)">
+  <div class="header-container" (click)="$event.stopPropagation()">
+    <!-- Logo and Brand -->
+    <div class="brand-section">
+      <div class="logo">
+        <span class="tree-icon">🌳</span>
+        <h1>FamilyTree</h1>
+      </div>
+      <p class="tagline">Connecting Generations</p>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="main-navigation">
+      <ul class="nav-items">
+        <li *ngFor="let item of navigationItems" 
+            class="nav-item" 
+            [class.active]="item.active">
+          <a [routerLink]="item.route" class="nav-link" (click)="onNavItemClick(item)">
+            <span class="nav-icon">{{ item.icon }}</span>
+            <span class="nav-label">{{ item.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- User Actions -->
+    <div class="user-section" *ngIf="currentUser">
+      <!-- Add Member Button -->
+      <button class="add-member-btn" (click)="addMember()" title="Add Family Member">
+        <span class="add-icon">👤+</span>
+        <span class="add-label">Add Member</span>
+      </button>
+      
+      <div class="notifications" (click)="onNotificationClick()">
+        <span class="notification-icon">🔔</span>
+        <span class="notification-badge">3</span>
+      </div>
+      
+      <div class="user-profile" (click)="onProfileClick(); $event.stopPropagation()">>
+        <div class="user-avatar">
+          <span>{{ currentUser?.name?.charAt(0) || 'U' }}</span>
+        </div>
+        <div class="user-info">
+          <span class="user-name">{{ currentUser?.name || 'User' }}</span>
+          <span class="user-role">{{ currentUser?.role || 'Member' }}</span>
+        </div>
+        <span class="dropdown-arrow">▼</span>
+        
+        <!-- User Dropdown -->
+        <div class="user-dropdown" *ngIf="showUserDropdown">
+          <div class="dropdown-header">
+            <div class="dropdown-avatar">
+              <span>{{ currentUser?.name?.charAt(0) || 'U' }}</span>
+            </div>
+            <div class="dropdown-info">
+              <span class="dropdown-name">{{ currentUser?.name || 'User' }}</span>
+              <span class="dropdown-email">{{ currentUser?.email || 'user@example.com' }}</span>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <ul class="dropdown-menu">
+            <li><a (click)="viewProfile()"><span class="menu-icon">👤</span>View Profile</a></li>
+            <li><a (click)="settings()"><span class="menu-icon">⚙️</span>Settings</a></li>
+            <li class="divider"></li>
+            <li><a (click)="logout()" class="logout-item"><span class="menu-icon">🚪</span>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Button (when not authenticated) -->
+    <div class="auth-section" *ngIf="!currentUser">
+      <a routerLink="/login" class="login-btn">
+        <span class="login-icon">🔑</span>
+        <span class="login-text">Sign In</span>
+      </a>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,196 @@
+.events-widget {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  border: 3px solid transparent;
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+  border-left: 4px solid #3498db;
+
+  .widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ecf0f1;
+
+    h3 {
+      margin: 0;
+      color: #2c3e50;
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .view-all-link {
+      color: #3498db;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #2980b9;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .event-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border-left: 3px solid #3498db;
+
+    &:hover {
+      background: #e9ecef;
+      transform: translateX(2px);
+    }
+
+    &.event-birthday {
+      border-left-color: #ff6b6b;
+    }
+
+    &.event-anniversary {
+      border-left-color: #ff69b4;
+    }
+
+    &.event-memorial {
+      border-left-color: #95a5a6;
+    }
+
+    &.event-reunion {
+      border-left-color: #f39c12;
+    }
+
+    &.event-custom {
+      border-left-color: #9b59b6;
+    }
+
+    .event-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .event-details {
+      flex: 1;
+      min-width: 0;
+
+      h4 {
+        margin: 0 0 4px 0;
+        color: #2c3e50;
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .event-date {
+        margin: 0 0 4px 0;
+        color: #7f8c8d;
+        font-size: 0.8rem;
+      }
+
+      .event-countdown {
+        margin: 0;
+        font-size: 0.75rem;
+        font-weight: 500;
+
+        .today {
+          color: #e74c3c;
+          font-weight: 600;
+        }
+
+        .tomorrow {
+          color: #f39c12;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .no-events {
+    text-align: center;
+    padding: 20px;
+    color: #7f8c8d;
+
+    p {
+      margin: 0 0 10px 0;
+      font-style: italic;
+    }
+
+    .add-event-link {
+      color: #3498db;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .more-events {
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid #ecf0f1;
+
+    .more-link {
+      color: #3498db;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .events-widget {
+    padding: 15px;
+
+    .widget-header {
+      h3 {
+        font-size: 1.1rem;
+      }
+
+      .view-all-link {
+        font-size: 0.8rem;
+      }
+    }
+
+    .event-item {
+      padding: 10px;
+
+      .event-details {
+        h4 {
+          font-size: 0.85rem;
+        }
+
+        .event-date, .event-countdown {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+}

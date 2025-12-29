@@ -1,0 +1,26 @@
+<div class="dashboard-layout">
+  <app-header></app-header>
+  <div class="dashboard-body">
+    <main class="main-content" [class.events-collapsed]="eventsCollapsed">
+      <!-- Toggle Buttons -->
+      <div class="toggle-controls">
+        <button class="toggle-btn events-toggle" 
+                (click)="toggleEvents()" 
+                [title]="eventsCollapsed ? 'Show Events' : 'Hide Events'">
+          <span class="toggle-icon">{{ eventsCollapsed ? '📅' : '✖️' }}</span>
+        </button>
+      </div>
+
+      <div class="content-grid" [class.events-hidden]="eventsCollapsed">
+        <div class="main-section">
+          <app-family-tree></app-family-tree>
+        </div>
+        <div class="sidebar-section" [class.collapsed]="eventsCollapsed">
+          <app-events-widget></app-events-widget>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <app-footer></app-footer>
+</div>

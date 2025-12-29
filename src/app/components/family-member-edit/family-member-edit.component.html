@@ -1,0 +1,163 @@
+<div class="form-overlay">
+  <div class="form-container">
+    <div class="form-header">
+      <h2>Edit Family Member</h2>
+      <button class="close-btn" (click)="closeForm()" [disabled]="isSubmitting || isDeleting">×</button>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="delete-confirmation" *ngIf="showDeleteConfirm">
+      <div class="delete-content">
+        <div class="delete-icon">⚠️</div>
+        <h3>Delete Family Member</h3>
+        <p>Are you sure you want to delete <strong>{{ member.name }}</strong>?</p>
+        <p class="delete-warning">This action cannot be undone.</p>
+        <div class="delete-actions">
+          <button class="btn-cancel" (click)="cancelDelete()" [disabled]="isDeleting">Cancel</button>
+          <button class="btn-delete" (click)="confirmDelete()" [disabled]="isDeleting">
+            <span *ngIf="!isDeleting">Delete</span>
+            <span *ngIf="isDeleting" class="loading-content">
+              <span class="spinner"></span>
+              Deleting...
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <form (ngSubmit)="onSubmit()" #memberForm="ngForm" *ngIf="!showDeleteConfirm">
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👤</span>
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="editMember.name" 
+            name="name" 
+            required
+            placeholder="Enter full name"
+            [disabled]="isSubmitting"
+            autocomplete="name">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="age">Age *</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🎂</span>
+            <input 
+              type="number" 
+              id="age" 
+              [(ngModel)]="editMember.age" 
+              name="age" 
+              required
+              min="1"
+              max="150"
+              placeholder="Enter age"
+              [disabled]="isSubmitting">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="gender">Gender *</label>
+          <div class="input-wrapper">
+            <span class="input-icon">⚧</span>
+            <select id="gender" [(ngModel)]="editMember.gender" name="gender" required [disabled]="isSubmitting">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="designation">Designation/Occupation *</label>
+        <div class="input-wrapper">
+          <span class="input-icon">💼</span>
+          <input 
+            type="text" 
+            id="designation" 
+            [(ngModel)]="editMember.designation" 
+            name="designation" 
+            required
+            placeholder="e.g., Software Engineer, Student, Retired"
+            [disabled]="isSubmitting">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="relation">Relation *</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👨‍👩‍👧‍👦</span>
+          <select id="relation" [(ngModel)]="editMember.relation" name="relation" required [disabled]="isSubmitting">
+            <option value="">Select Relation</option>
+            <option *ngFor="let relation of relations" [value]="relation">{{ relation }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="parentId">Parent (Optional)</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👨‍👩‍👧</span>
+          <select 
+            id="parentId" 
+            [(ngModel)]="editMember.parentId" 
+            name="parentId"
+            [disabled]="isSubmitting"
+            (change)="onParentChange()">
+            <option value="">No Parent / Root Member</option>
+            <option *ngFor="let parent of potentialParents" [value]="parent.id">
+              {{ parent.name }} ({{ parent.relation }})
+            </option>
+          </select>
+        </div>
+        <small class="field-help">Select a parent if this person is a child of an existing family member</small>
+      </div>
+
+      <!-- Success Message -->
+      <div class="success-message" *ngIf="successMessage">
+        <span class="success-icon">✅</span>
+        {{ successMessage }}
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="errorMessage">
+        <span class="error-icon">⚠️</span>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-delete" (click)="onDelete()" [disabled]="isSubmitting">
+          🗑️ Delete
+        </button>
+        <div class="action-group">
+          <button type="button" class="btn-cancel" (click)="closeForm()" [disabled]="isSubmitting">
+            Cancel
+          </button>
+          <button type="submit" class="btn-submit" [disabled]="!isFormValid() || isSubmitting">
+            <span *ngIf="!isSubmitting">Update Member</span>
+            <span *ngIf="isSubmitting" class="loading-content">
+              <span class="spinner"></span>
+              Updating...
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Form Tips -->
+    <div class="form-tips" *ngIf="!showDeleteConfirm">
+      <h4>✏️ Editing Tips:</h4>
+      <ul>
+        <li>Changes will be reflected immediately in the family tree</li>
+        <li>Be careful when changing parent relationships</li>
+        <li>Use the delete button to remove this member permanently</li>
+        <li>All fields marked with * are required</li>
+      </ul>
+    </div>
+  </div>
+</div>

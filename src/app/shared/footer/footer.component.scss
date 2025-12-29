@@ -1,0 +1,305 @@
+.family-footer {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: #ecf0f1;
+  margin-top: auto;
+  border-top: 4px solid #27ae60;
+
+  .footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 30px;
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 40px;
+    padding: 50px 0 30px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    .footer-brand {
+      .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+
+        .tree-icon {
+          font-size: 2.5rem;
+          filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        h3 {
+          margin: 0;
+          font-size: 1.8rem;
+          font-weight: 700;
+          background: linear-gradient(45deg, #27ae60, #2ecc71);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+      }
+
+      .brand-description {
+        margin: 0 0 25px 0;
+        line-height: 1.6;
+        color: #bdc3c7;
+        font-size: 0.95rem;
+      }
+
+      .family-motto {
+        background: rgba(39, 174, 96, 0.1);
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 4px solid #27ae60;
+        font-style: italic;
+        color: #2ecc71;
+        position: relative;
+
+        .quote-icon {
+          font-size: 1.5rem;
+          opacity: 0.6;
+        }
+
+        em {
+          margin: 0 8px;
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    .footer-section {
+      h4 {
+        margin: 0 0 20px 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #27ae60;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .footer-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+          margin-bottom: 12px;
+
+          a {
+            color: #bdc3c7;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+
+            &:hover {
+              color: #2ecc71;
+              transform: translateX(5px);
+            }
+          }
+        }
+      }
+
+      .family-statistics {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .stat-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 10px;
+          transition: all 0.3s ease;
+
+          .stat-icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+            text-align: center;
+          }
+
+          .stat-info {
+            display: flex;
+            flex-direction: column;
+
+            .stat-number {
+              font-size: 1.3rem;
+              font-weight: bold;
+              color: #2ecc71;
+              line-height: 1;
+            }
+
+            .stat-label {
+              font-size: 0.8rem;
+              color: #95a5a6;
+              line-height: 1;
+              margin-top: 2px;
+            }
+          }
+
+          &:hover {
+            background: rgba(39, 174, 96, 0.1);
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    padding: 25px 0;
+
+    .footer-bottom-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      .copyright {
+        p {
+          margin: 0;
+          color: #95a5a6;
+          font-size: 0.9rem;
+        }
+      }
+
+      .social-links {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        .social-label {
+          color: #95a5a6;
+          font-size: 0.9rem;
+        }
+
+        .social-icons {
+          display: flex;
+          gap: 10px;
+
+          .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+
+            .social-icon {
+              font-size: 1.2rem;
+            }
+
+            &:hover {
+              background: #27ae60;
+              transform: translateY(-3px);
+              box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+            }
+          }
+        }
+      }
+
+      .heritage-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #95a5a6;
+        font-size: 0.9rem;
+
+        .heritage-icon {
+          font-size: 1.2rem;
+        }
+
+        .heritage-text {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .family-footer {
+    .footer-container {
+      padding: 0 20px;
+    }
+
+    .footer-main {
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      padding: 40px 0 25px 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .family-footer {
+    .footer-container {
+      padding: 0 15px;
+    }
+
+    .footer-main {
+      grid-template-columns: 1fr;
+      gap: 25px;
+      padding: 30px 0 20px 0;
+      text-align: center;
+
+      .footer-brand .brand-logo {
+        justify-content: center;
+      }
+
+      .footer-section .family-statistics {
+        .stat-item {
+          justify-content: center;
+        }
+      }
+    }
+
+    .footer-bottom .footer-bottom-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 15px;
+
+      .social-links {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .family-footer {
+    .footer-main {
+      padding: 25px 0 15px 0;
+
+      .footer-brand {
+        .brand-logo h3 {
+          font-size: 1.5rem;
+        }
+
+        .family-motto {
+          padding: 15px;
+          font-size: 0.9rem;
+        }
+      }
+
+      .footer-section .family-statistics {
+        .stat-item {
+          padding: 10px;
+
+          .stat-info .stat-number {
+            font-size: 1.1rem;
+          }
+        }
+      }
+    }
+  }
+}
