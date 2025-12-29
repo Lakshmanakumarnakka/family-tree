@@ -1,0 +1,135 @@
+<div class="family-tree-container">
+  <div class="family-tree-header">
+    <h1>{{ familyName }}</h1>
+    <p>Click on any family member to see detailed information</p>
+    <div class="header-actions">
+      <button class="add-member-btn" (click)="showAddMemberForm()">
+        <span class="plus-icon">+</span>
+        Add Family Member
+      </button>
+    </div>
+  </div>
+
+  <div class="tree-visualization">
+    <!-- Generation-based Family Display -->
+    <div class="generation-layout">
+      <div *ngFor="let generation of getGenerationLevels(); let genIndex = index" 
+           class="generation-level" 
+           [class]="'generation-' + generation.level">
+        
+        <!-- Generation Title -->
+        <div class="generation-header">
+          <h3 class="generation-title">
+            {{ generation.title }}
+            <span class="member-count">({{ generation.members.length }} members)</span>
+          </h3>
+          <button class="add-generation-btn" 
+                  (click)="showAddMemberFormForGeneration(generation.level)"
+                  title="Add member to this generation">
+            <span class="plus-icon">+</span>
+            Add to Generation {{ generation.level }}
+          </button>
+        </div>
+        
+        <!-- Generation Members -->
+        <div class="generation-members">
+          <div *ngFor="let member of generation.members; let memberIndex = index" 
+               class="member-container"
+               [class.spouse-pair]="memberIndex > 0 && isSpouse(generation.members[memberIndex-1], member)">
+            
+            <!-- Family Member Card -->
+            <div class="family-member" 
+                 [class.selected]="selectedMember?.id === member.id"
+                 [class.generation-1]="generation.level === 1"
+                 [class.generation-2]="generation.level === 2"
+                 [class.generation-3]="generation.level === 3"
+                 [class.generation-4]="generation.level >= 4"
+                 [class.spouse]="memberIndex > 0 && isSpouse(generation.members[memberIndex-1], member)"
+                 (click)="selectMember(member)">
+              
+              <div class="member-photo">
+                <div class="avatar" [class.male]="member.gender === 'male'">
+                  {{ member.name.charAt(0) }}
+                </div>
+              </div>
+              
+              <div class="member-info">
+                <h4>{{ member.name }}</h4>
+                <p class="designation">{{ member.designation }}</p>
+                <p class="age">{{ member.age }} years old</p>
+                <p class="relation">{{ member.relation }}</p>
+                <p class="parent-info" *ngIf="member.parentId">
+                  Child of: {{ getParentName(member.parentId) }}
+                </p>
+              </div>
+              
+              <!-- Edit/Delete buttons only for selected member -->
+              <div class="member-actions" *ngIf="selectedMember?.id === member.id">
+                <button class="edit-btn" (click)="$event.stopPropagation(); editMember(member)" title="Edit Member">
+                  ✏️
+                </button>
+                <button class="delete-btn" (click)="$event.stopPropagation(); deleteMember(member)" title="Delete Member">
+                  🗑️
+                </button>
+              </div>
+            </div>
+
+            <!-- Marriage Connection (if next member is spouse) -->
+            <div *ngIf="memberIndex < generation.members.length - 1 && isSpouse(member, generation.members[memberIndex + 1])" 
+                 class="marriage-connection">
+              <div class="marriage-line">💕</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Member Form -->
+  <app-family-member-form 
+    *ngIf="showAddForm"
+    [targetGeneration]="targetGeneration"
+    (memberAdded)="onMemberAdded($event)"
+    (formClosed)="onFormClosed()">
+  </app-family-member-form>
+
+  <!-- Edit Member Form -->
+  <app-family-member-edit 
+    *ngIf="showEditForm && memberToEdit"
+    [member]="memberToEdit"
+    (memberUpdated)="onMemberUpdated($event)"
+    (memberDeleted)="onMemberDeleted($event)"
+    (formClosed)="onEditFormClosed()">
+  </app-family-member-edit>
+
+  <!-- Member Details Panel -->
+  <div class="member-details" *ngIf="selectedMember">
+    <div class="details-header">
+      <h2>{{ selectedMember.name }}</h2>
+      <button class="close-btn" (click)="selectedMember = null">×</button>
+    </div>
+    <div class="details-content">
+      <div class="detail-item">
+        <strong>Age:</strong> {{ selectedMember.age }} years old
+      </div>
+      <div class="detail-item">
+        <strong>Designation:</strong> {{ selectedMember.designation }}
+      </div>
+      <div class="detail-item">
+        <strong>Relation:</strong> {{ selectedMember.relation }}
+      </div>
+      <div class="detail-item">
+        <strong>Gender:</strong> {{ selectedMember.gender | titlecase }}
+      </div>
+      <div class="detail-item" *ngIf="selectedMember.parentId">
+        <strong>Parent:</strong> {{ getParentName(selectedMember.parentId) }}
+      </div>
+      <div class="detail-item" *ngIf="selectedMember.children && selectedMember.children.length > 0">
+        <strong>Children:</strong> 
+        <ul>
+          <li *ngFor="let child of selectedMember.children">{{ child.name }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

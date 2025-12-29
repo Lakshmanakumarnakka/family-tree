@@ -1,0 +1,163 @@
+<div class="login-layout">
+  <app-header></app-header>
+  
+  <div class="login-container">
+    <div class="login-background">
+      <div class="family-tree-bg">
+        <div class="tree-branch branch-1"></div>
+        <div class="tree-branch branch-2"></div>
+        <div class="tree-branch branch-3"></div>
+        <div class="floating-leaves">
+          <span class="leaf">🍃</span>
+          <span class="leaf">🍃</span>
+          <span class="leaf">🍃</span>
+          <span class="leaf">🍃</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-content">
+    <!-- Login Card -->
+    <div class="login-card">
+      <!-- Header -->
+      <div class="login-header">
+        <div class="brand-logo">
+          <span class="tree-icon">🌳</span>
+          <h1>FamilyTree</h1>
+        </div>
+        <p class="welcome-text">Welcome back to your family's digital home</p>
+        <div class="family-motto">
+          <em>"Connecting generations, preserving memories"</em>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input 
+              type="email" 
+              id="email" 
+              name="email"
+              [(ngModel)]="credentials.email"
+              required
+              email
+              placeholder="Enter your email"
+              [disabled]="isLoading"
+              autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input 
+              type="password" 
+              id="password" 
+              name="password"
+              [(ngModel)]="credentials.password"
+              required
+              placeholder="Enter your password"
+              [disabled]="isLoading"
+              autocomplete="current-password">
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="errorMessage">
+          <span class="error-icon">⚠️</span>
+          {{ errorMessage }}
+        </div>
+
+        <!-- Login Button -->
+        <button 
+          type="submit" 
+          class="login-btn"
+          [disabled]="isLoading || !loginForm.form.valid">
+          <span *ngIf="!isLoading">Sign In to Family Tree</span>
+          <span *ngIf="isLoading" class="loading-spinner">
+            <span class="spinner"></span>
+            Signing in...
+          </span>
+        </button>
+
+        <!-- Demo Credentials -->
+        <div class="demo-section">
+          <button 
+            type="button" 
+            class="demo-toggle-btn"
+            (click)="toggleDemoCredentials()">
+            <span class="demo-icon">🎭</span>
+            Try Demo Accounts
+          </button>
+          
+          <div class="demo-credentials" *ngIf="showDemoCredentials">
+            <h4>Demo Family Members:</h4>
+            <div class="demo-users">
+              <div 
+                *ngFor="let demo of demoUsers" 
+                class="demo-user"
+                (click)="useDemoCredentials(demo)">
+                <div class="demo-avatar">
+                  {{ demo.email.charAt(0).toUpperCase() }}
+                </div>
+                <div class="demo-info">
+                  <span class="demo-email">{{ demo.email }}</span>
+                  <span class="demo-password">Password: {{ demo.password }}</span>
+                </div>
+                <span class="demo-arrow">→</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Footer Links -->
+      <div class="login-footer">
+        <div class="footer-links">
+          <a href="#" class="footer-link">Forgot Password?</a>
+          <span class="separator">•</span>
+          <a href="#" class="footer-link">Create Family Tree</a>
+          <span class="separator">•</span>
+          <a href="#" class="footer-link">Help Center</a>
+        </div>
+        <div class="security-info">
+          <span class="security-icon">🔐</span>
+          <span>Your family data is secure and private</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Family Stats -->
+    <div class="family-stats-card">
+      <h3>Join Thousands of Families</h3>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number">10K+</span>
+          <span class="stat-label">Family Trees</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">50K+</span>
+          <span class="stat-label">Members</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100+</span>
+          <span class="stat-label">Countries</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">5★</span>
+          <span class="stat-label">Rating</span>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p>"FamilyTree helped us reconnect with relatives we hadn't spoken to in years!"</p>
+        <span class="testimonial-author">- Sarah Johnson</span>
+      </div>
+    </div>
+  </div>
+  
+  <app-footer></app-footer>
+</div>

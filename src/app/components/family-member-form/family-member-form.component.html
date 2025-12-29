@@ -1,0 +1,170 @@
+<div class="form-overlay">
+  <div class="form-container">
+    <div class="form-header">
+      <h2>Add New Family Member</h2>
+      <div class="generation-context" *ngIf="targetGeneration">
+        <span class="context-label">Adding to:</span>
+        <span class="context-value">{{ getGenerationContext() }}</span>
+      </div>
+      <button class="close-btn" (click)="closeForm()" [disabled]="isSubmitting">×</button>
+    </div>
+    
+    <form (ngSubmit)="onSubmit()" #memberForm="ngForm">
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👤</span>
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="newMember.name" 
+            name="name" 
+            required
+            placeholder="Enter full name"
+            [disabled]="isSubmitting"
+            autocomplete="name">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="age">Age *</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🎂</span>
+            <input 
+              type="number" 
+              id="age" 
+              [(ngModel)]="newMember.age" 
+              name="age" 
+              required
+              min="1"
+              max="150"
+              placeholder="Enter age"
+              [disabled]="isSubmitting">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="gender">Gender *</label>
+          <div class="input-wrapper">
+            <span class="input-icon">⚧</span>
+            <select id="gender" [(ngModel)]="newMember.gender" name="gender" required [disabled]="isSubmitting">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="designation">Designation/Occupation *</label>
+        <div class="input-wrapper">
+          <span class="input-icon">💼</span>
+          <input 
+            type="text" 
+            id="designation" 
+            [(ngModel)]="newMember.designation" 
+            name="designation" 
+            required
+            placeholder="e.g., Software Engineer, Student, Retired"
+            [disabled]="isSubmitting">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="relation">Relation *</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👨‍👩‍👧‍👦</span>
+          <select 
+            id="relation" 
+            [(ngModel)]="newMember.relation" 
+            name="relation" 
+            required 
+            [disabled]="isSubmitting"
+            (change)="onRelationChange()">
+            <option value="">Select Relation</option>
+            <option *ngFor="let relation of relations" [value]="relation">{{ relation }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="parentId">Parent (Optional)</label>
+          <div class="input-wrapper">
+            <span class="input-icon">👨‍👩‍👧</span>
+            <select 
+              id="parentId" 
+              [(ngModel)]="newMember.parentId" 
+              name="parentId"
+              [disabled]="isSubmitting"
+              (change)="onParentChange()">
+              <option value="">No Parent / Root Member</option>
+              <option *ngFor="let parent of potentialParents" [value]="parent.id">
+                {{ parent.name }} ({{ parent.relation }})
+              </option>
+            </select>
+          </div>
+          <small class="field-help">Select a parent if this person is a child of an existing family member</small>
+        </div>
+
+        <div class="form-group">
+          <label for="spouseId">Spouse (Optional)</label>
+          <div class="input-wrapper">
+            <span class="input-icon">💑</span>
+            <select 
+              id="spouseId" 
+              [(ngModel)]="newMember.spouseId" 
+              name="spouseId"
+              [disabled]="isSubmitting">
+              <option value="">No Spouse</option>
+              <option *ngFor="let spouse of potentialSpouses" [value]="spouse.id">
+                {{ spouse.name }} ({{ spouse.relation }})
+              </option>
+            </select>
+          </div>
+          <small class="field-help">Select a spouse to create a marriage relationship</small>
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div class="success-message" *ngIf="successMessage">
+        <span class="success-icon">✅</span>
+        {{ successMessage }}
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="errorMessage">
+        <span class="error-icon">⚠️</span>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="closeForm()" [disabled]="isSubmitting">
+          Cancel
+        </button>
+        <button type="submit" class="btn-submit" [disabled]="!isFormValid() || isSubmitting">
+          <span *ngIf="!isSubmitting">Add Member</span>
+          <span *ngIf="isSubmitting" class="loading-content">
+            <span class="spinner"></span>
+            Adding...
+          </span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Form Tips -->
+    <div class="form-tips">
+      <h4>💡 Tips for Adding Family Members:</h4>
+      <ul>
+        <li>Use clear, full names for better family tree organization</li>
+        <li>Select the appropriate parent to establish family relationships</li>
+        <li>Choose accurate relations to maintain family hierarchy</li>
+        <li><strong>For in-laws:</strong> Select their own parents (from their original family), not their spouse's parents</li>
+        <li><strong>For spouses:</strong> Select an existing family member to create a marriage relationship</li>
+        <li>Add occupation details to make profiles more informative</li>
+      </ul>
+    </div>
+  </div>
+</div>

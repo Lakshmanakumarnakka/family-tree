@@ -1,0 +1,121 @@
+<footer class="family-footer">
+  <div class="footer-container">
+    <!-- Main Footer Content -->
+    <div class="footer-main">
+      <!-- Family Brand Section -->
+      <div class="footer-brand">
+        <div class="brand-logo">
+          <span class="tree-icon">🌳</span>
+          <h3>FamilyTree</h3>
+        </div>
+        <p class="brand-description">
+          Preserving family heritage and connecting generations through digital storytelling. 
+          Build, share, and celebrate your family's unique journey.
+        </p>
+        <div class="family-motto">
+          <span class="quote-icon">"</span>
+          <em>Every family tree hides a multitude of stories</em>
+          <span class="quote-icon">"</span>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-section">
+        <h4>Family Features</h4>
+        <ul class="footer-links">
+          <li *ngFor="let link of familyLinks">
+            <a [href]="link.url">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Support Links -->
+      <div class="footer-section">
+        <h4>Support & Help</h4>
+        <ul class="footer-links">
+          <li *ngFor="let link of supportLinks">
+            <a [href]="link.url">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Family Statistics -->
+      <div class="footer-section">
+        <h4>Family Overview</h4>
+        <div class="family-statistics">
+          <div class="stat-item">
+            <span class="stat-icon">👥</span>
+            <div class="stat-info">
+              <span class="stat-number">{{ familyStats.totalMembers }}</span>
+              <span class="stat-label">Total Members</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">🏠</span>
+            <div class="stat-info">
+              <span class="stat-number">{{ familyStats.generations }}</span>
+              <span class="stat-label">Generations</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">👨</span>
+            <div class="stat-info">
+              <span class="stat-number">{{ familyStats.maleMembers }}</span>
+              <span class="stat-label">Male Members</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">�️</span>
+            <div class="stat-info">
+              <span class="stat-number">{{ familyStats.femaleMembers }}</span>
+              <span class="stat-label">Female Members</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">📊</span>
+            <div class="stat-info">
+              <span class="stat-number">{{ familyStats.averageAge }}</span>
+              <span class="stat-label">Avg Age</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">👴</span>
+            <div class="stat-info">
+              <span class="stat-number">{{ familyStats.oldestMember }}</span>
+              <span class="stat-label">Oldest</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <!-- Copyright -->
+        <div class="copyright">
+          <p>&copy; {{ currentYear }} {{ familyName }} Family Tree. Made with ❤️ for family connections.</p>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-links">
+          <span class="social-label">Connect with us:</span>
+          <div class="social-icons">
+            <a *ngFor="let social of socialLinks" 
+               [href]="social.url" 
+               [title]="social.label"
+               class="social-link">
+              <span class="social-icon">{{ social.icon }}</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Family Heritage -->
+        <div class="heritage-info">
+          <span class="heritage-icon">🏛️</span>
+          <span class="heritage-text">Est. 1950 • Legacy Continues</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

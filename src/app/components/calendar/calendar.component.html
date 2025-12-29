@@ -1,0 +1,109 @@
+<div class="calendar-layout">
+  <app-header></app-header>
+  
+  <div class="calendar-container">
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb-nav">
+      <nav class="breadcrumb">
+        <a routerLink="/dashboard" class="breadcrumb-item">
+          <span class="breadcrumb-icon">🏠</span>
+          <span class="breadcrumb-text">Home</span>
+        </a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item current">
+          <span class="breadcrumb-icon">📅</span>
+          <span class="breadcrumb-text">Family Calendar</span>
+        </span>
+      </nav>
+    </div>
+
+  <div class="calendar-header">
+    <div class="header-content">
+      <div class="title-section">
+        <h1>📅 Family Calendar</h1>
+        <p>Track birthdays, anniversaries, and family events</p>
+      </div>
+      <div class="header-actions">
+        <!-- Collapse Toggle for Events Sidebar -->
+        <button class="toggle-events-btn" 
+                (click)="toggleEventsSidebar()" 
+                [title]="eventsSidebarCollapsed ? 'Show Events' : 'Hide Events'">
+          <span class="toggle-icon">{{ eventsSidebarCollapsed ? '📅' : '✖️' }}</span>
+          <span class="toggle-label">{{ eventsSidebarCollapsed ? 'Show' : 'Hide' }} Events</span>
+        </button>
+        
+        <button class="add-event-btn" (click)="showEventForm = true; selectedDate = null; selectedEvent = null">
+          <span class="plus-icon">+</span>
+          Add Event
+        </button>
+        
+        <!-- Debug button - remove in production -->
+        <button class="debug-btn" (click)="regenerateEvents()" title="Regenerate Birthday Events">
+          🔄 Refresh Events
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-content" [class.events-collapsed]="eventsSidebarCollapsed">
+    <!-- Main Calendar -->
+    <div class="calendar-main">
+      <full-calendar [options]="calendarOptions()"></full-calendar>
+    </div>
+
+    <!-- Upcoming Events Sidebar -->
+    <div class="upcoming-events" [class.collapsed]="eventsSidebarCollapsed">
+      <div class="events-header">
+        <h3>🔔 Upcoming Events</h3>
+        <button class="collapse-btn" 
+                (click)="toggleEventsSidebar()" 
+                [title]="eventsSidebarCollapsed ? 'Show Events' : 'Hide Events'">
+          {{ eventsSidebarCollapsed ? '▶️' : '◀️' }}
+        </button>
+      </div>
+      <div class="events-list">
+        <div *ngFor="let event of upcomingEvents" class="event-item" [class]="'event-' + event.type">
+          <div class="event-icon">{{ getEventTypeIcon(event.type) }}</div>
+          <div class="event-details">
+            <h4>{{ event.title }}</h4>
+            <p class="event-date">{{ formatEventDate(event.date, event.recurring) }}</p>
+            <p class="event-countdown" *ngIf="getDaysUntilEvent(event.date, event.recurring) >= 0">
+              <span *ngIf="getDaysUntilEvent(event.date, event.recurring) === 0" class="today">Today!</span>
+              <span *ngIf="getDaysUntilEvent(event.date, event.recurring) === 1" class="tomorrow">Tomorrow</span>
+              <span *ngIf="getDaysUntilEvent(event.date, event.recurring) > 1">
+                In {{ getDaysUntilEvent(event.date, event.recurring) }} days
+              </span>
+            </p>
+            <p class="event-member" *ngIf="event.memberName">{{ event.memberName }}</p>
+          </div>
+          <div class="event-actions">
+            <button class="edit-event-btn" (click)="selectedEvent = event; showEventForm = true" title="Edit Event">
+              ✏️
+            </button>
+          </div>
+        </div>
+        
+        <div *ngIf="upcomingEvents.length === 0" class="no-events">
+          <p>No upcoming events in the next 30 days</p>
+          <button class="add-first-event-btn" (click)="showEventForm = true; selectedDate = null; selectedEvent = null">
+            Add Your First Event
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event Form Modal -->
+  <app-event-form 
+    *ngIf="showEventForm"
+    [selectedDate]="selectedDate"
+    [selectedEvent]="selectedEvent"
+    (eventAdded)="onEventAdded($event)"
+    (eventUpdated)="onEventUpdated($event)"
+    (eventDeleted)="onEventDeleted()"
+    (formClosed)="onFormClosed()">
+  </app-event-form>
+  </div>
+  
+  <app-footer></app-footer>
+</div>

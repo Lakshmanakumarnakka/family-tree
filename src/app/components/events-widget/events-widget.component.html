@@ -1,0 +1,34 @@
+<div class="events-widget">
+  <div class="widget-header">
+    <h3>🔔 Upcoming Events</h3>
+    <a routerLink="/calendar" class="view-all-link">View All</a>
+  </div>
+  
+  <div class="events-list">
+    <div *ngFor="let event of upcomingEvents.slice(0, 5)" class="event-item" [class]="'event-' + event.type">
+      <div class="event-icon">{{ getEventTypeIcon(event.type) }}</div>
+      <div class="event-details">
+        <h4>{{ event.title }}</h4>
+        <p class="event-date">{{ formatEventDate(event.date, event.recurring) }}</p>
+        <p class="event-countdown" *ngIf="getDaysUntilEvent(event.date, event.recurring) >= 0">
+          <span *ngIf="getDaysUntilEvent(event.date, event.recurring) === 0" class="today">Today!</span>
+          <span *ngIf="getDaysUntilEvent(event.date, event.recurring) === 1" class="tomorrow">Tomorrow</span>
+          <span *ngIf="getDaysUntilEvent(event.date, event.recurring) > 1">
+            In {{ getDaysUntilEvent(event.date, event.recurring) }} days
+          </span>
+        </p>
+      </div>
+    </div>
+    
+    <div *ngIf="upcomingEvents.length === 0" class="no-events">
+      <p>No upcoming events</p>
+      <a routerLink="/calendar" class="add-event-link">Add your first event</a>
+    </div>
+    
+    <div *ngIf="upcomingEvents.length > 5" class="more-events">
+      <a routerLink="/calendar" class="more-link">
+        +{{ upcomingEvents.length - 5 }} more events
+      </a>
+    </div>
+  </div>
+</div>

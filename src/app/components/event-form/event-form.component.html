@@ -1,0 +1,216 @@
+<div class="form-overlay">
+  <div class="form-container">
+    <div class="form-header">
+      <h2>{{ getFormTitle() }}</h2>
+      <button class="close-btn" (click)="closeForm()" [disabled]="isSubmitting || isDeleting">×</button>
+    </div>
+    
+    <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
+      <div class="form-group">
+        <label for="title">Event Title *</label>
+        <div class="input-wrapper">
+          <span class="input-icon">📝</span>
+          <input 
+            type="text" 
+            id="title" 
+            [(ngModel)]="eventData.title" 
+            name="title" 
+            required
+            placeholder="Enter event title"
+            [disabled]="isSubmitting || isDeleting"
+            autocomplete="off">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date">Date *</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📅</span>
+            <input 
+              type="date" 
+              id="date" 
+              [(ngModel)]="eventData.date" 
+              name="date" 
+              required
+              [disabled]="isSubmitting || isDeleting">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="type">Event Type *</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🏷️</span>
+            <select 
+              id="type" 
+              [(ngModel)]="eventData.type" 
+              name="type" 
+              required 
+              [disabled]="isSubmitting || isDeleting"
+              (change)="onTypeChange()">
+              <option *ngFor="let type of eventTypes" [value]="type.value">
+                {{ type.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="memberId">Family Member (Optional)</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👤</span>
+          <select 
+            id="memberId" 
+            [(ngModel)]="eventData.memberId" 
+            name="memberId"
+            [disabled]="isSubmitting || isDeleting"
+            (change)="onMemberChange()">
+            <option value="">Select a family member</option>
+            <option *ngFor="let member of familyMembers" [value]="member.id">
+              {{ member.name }} ({{ member.relation }})
+            </option>
+          </select>
+        </div>
+        <small class="field-help">Associate this event with a specific family member</small>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description (Optional)</label>
+        <div class="input-wrapper">
+          <span class="input-icon">📄</span>
+          <textarea 
+            id="description" 
+            [(ngModel)]="eventData.description" 
+            name="description"
+            placeholder="Add event details..."
+            [disabled]="isSubmitting || isDeleting"
+            rows="3">
+          </textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Location (Optional)</label>
+        <div class="input-wrapper">
+          <span class="input-icon">📍</span>
+          <input 
+            type="text" 
+            id="location" 
+            [(ngModel)]="eventData.location" 
+            name="location"
+            placeholder="Event location"
+            [disabled]="isSubmitting || isDeleting">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="color">Color</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🎨</span>
+            <input 
+              type="color" 
+              id="color" 
+              [(ngModel)]="eventData.color" 
+              name="color"
+              [disabled]="isSubmitting || isDeleting">
+          </div>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              [(ngModel)]="eventData.recurring" 
+              name="recurring"
+              [disabled]="isSubmitting || isDeleting">
+            <span class="checkmark"></span>
+            Recurring Event
+          </label>
+          <small class="field-help">Event repeats annually</small>
+        </div>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="eventData.reminder" 
+            name="reminder"
+            [disabled]="isSubmitting || isDeleting">
+          <span class="checkmark"></span>
+          Enable Reminder
+        </label>
+        
+        <div *ngIf="eventData.reminder" class="reminder-days">
+          <label for="reminderDays">Remind me</label>
+          <select 
+            id="reminderDays" 
+            [(ngModel)]="eventData.reminderDays" 
+            name="reminderDays"
+            [disabled]="isSubmitting || isDeleting">
+            <option [value]="1">1 day before</option>
+            <option [value]="3">3 days before</option>
+            <option [value]="7">1 week before</option>
+            <option [value]="14">2 weeks before</option>
+            <option [value]="30">1 month before</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div class="success-message" *ngIf="successMessage">
+        <span class="success-icon">✅</span>
+        {{ successMessage }}
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="errorMessage">
+        <span class="error-icon">⚠️</span>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="closeForm()" [disabled]="isSubmitting || isDeleting">
+          Cancel
+        </button>
+        
+        <div class="action-buttons">
+          <button 
+            *ngIf="isEditMode" 
+            type="button" 
+            class="btn-delete" 
+            (click)="onDelete()" 
+            [disabled]="isSubmitting || isDeleting">
+            <span *ngIf="!isDeleting">Delete</span>
+            <span *ngIf="isDeleting" class="loading-content">
+              <span class="spinner"></span>
+              Deleting...
+            </span>
+          </button>
+          
+          <button type="submit" class="btn-submit" [disabled]="!isFormValid() || isSubmitting || isDeleting">
+            <span *ngIf="!isSubmitting">{{ isEditMode ? 'Update Event' : 'Add Event' }}</span>
+            <span *ngIf="isSubmitting" class="loading-content">
+              <span class="spinner"></span>
+              {{ isEditMode ? 'Updating...' : 'Adding...' }}
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Form Tips -->
+    <div class="form-tips">
+      <h4>💡 Event Tips:</h4>
+      <ul>
+        <li>Birthday events are automatically set to recurring</li>
+        <li>Use colors to categorize different types of events</li>
+        <li>Associate events with family members for better organization</li>
+        <li>Set reminders to never miss important dates</li>
+      </ul>
+    </div>
+  </div>
+</div>
